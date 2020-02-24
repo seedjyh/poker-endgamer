@@ -32,6 +32,9 @@ class Hand:
             return self.__cards[0]
         return None
 
+    def copy(self):
+        return Hand(cards=self.cards().copy())
+
 
 def fromname(name):
     """
