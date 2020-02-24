@@ -26,7 +26,7 @@ def identify(hand):
         is_four_of_a_kind: Category.four_of_a_kind,
         is_straight: Category.straight,
     }
-    for k, v in work:
+    for k, v in work.items():
         if k(hand):
             return v
     else:
@@ -39,17 +39,17 @@ def is_individual(hand):
 
 def is_pair(hand):
     cards = hand.cards()
-    return len(cards) == 2 and cards[0] == cards[1]
+    return len(cards) == 2 and cards[0].rank() == cards[1].rank()
 
 
 def is_three_of_a_kind(hand):
     cards = hand.cards()
-    return len(cards) == 3 and cards[0] == cards[-1]
+    return len(cards) == 3 and cards[0].rank() == cards[-1].rank()
 
 
 def is_four_of_a_kind(hand):
     cards = hand.cards()
-    return len(cards) == 4 and cards[0] == cards[-1]
+    return len(cards) == 4 and cards[0].rank() == cards[-1].rank()
 
 
 def is_straight(hand):
@@ -57,7 +57,7 @@ def is_straight(hand):
     if len(cards) < 5:
         return False
     for index in range(len(cards)):
-        if index > 1 and cards[index-1].rank() != cards[index].rank():
+        if index > 1 and cards[index-1].rank() + 1 != cards[index].rank():
             return False
     return True
 
@@ -78,10 +78,10 @@ def beat(new_hand, last_hand):
     if new_category != last_category:
         return new_category == Category.four_of_a_kind
     if new_category in [Category.individual, Category.pair, Category.three_of_a_kind, Category.four_of_a_kind]:
-        return new_hand.cards()[0].rank() > last_hand.cards()[0].rank()
+        return new_hand.first_card().rank() > last_hand.first_card().rank()
     if new_category is Category.straight:
         return len(new_hand.cards()) == len(last_hand.cards()) and \
-               new_hand.cards()[0].rank() > last_hand.cards()[0].rank()
+               new_hand.first_card().rank() > last_hand.first_card().rank()
     
 
 if __name__ == "__main__":

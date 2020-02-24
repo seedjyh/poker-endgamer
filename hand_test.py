@@ -6,13 +6,17 @@ import card
 from hand import Hand
 
 
+def test_hand():
+    assert len(Hand().cards()) == 0
+    assert len(Hand(cards=[card.fromname("D2"), ]).cards()) == 1
+    assert len(Hand(cards=[card.fromname("D2"), card.fromname("D2"), ]).cards()) == 2
+
+
 def test_sort():
     hand = Hand()
     hand.append_card(card.fromname("S3"))
     hand.append_card(card.fromname("D3"))
     hand.append_card(card.fromname("S2"))
-    assert str(hand) == "S3D3S2"
-    hand.sort()
     assert str(hand) == "D3S3S2"
 
 

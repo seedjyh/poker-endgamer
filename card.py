@@ -13,12 +13,18 @@ class Suit:
 
 
 def name2suit(name):
-    return {
+    if len(name) != 1:
+        raise Exception("name of suit must be a single letter, got str length:%d" % len(name))
+    switch = {
         "S": Suit.spade,
         "H": Suit.heart,
         "D": Suit.diamond,
         "C": Suit.club,
-    }.get(name)
+    }
+    if name in switch:
+        return switch[name]
+    else:
+        raise Exception("invalid name of suit, got str:%s" % name)
 
 
 def suit2name(value):
@@ -31,7 +37,9 @@ def suit2name(value):
 
 
 def name2rank(name):
-    return {
+    if len(name) != 1:
+        raise Exception("name of rank must be a single letter")
+    switch = {
         "3": 3,
         "4": 4,
         "5": 5,
@@ -45,7 +53,11 @@ def name2rank(name):
         "K": 13,
         "A": 14,
         "2": 15,
-    }.get(name)
+    }
+    if name in switch:
+        return switch[name]
+    else:
+        raise Exception("invalid name of rank, got str: %s" % name)
 
 
 def rank2name(value):
