@@ -15,6 +15,9 @@ class Situation:
         self.__bob_hand = bob_hand
         self.__last_step = last_step
 
+    def game_over_lost(self):
+        return self.__alice_hand.length() > 0 and self.__bob_hand.length() == 0
+
     def find_playable(self):
         """
         Return a list of hand playable in this situation.
@@ -23,7 +26,9 @@ class Situation:
         """
         # PASS
         if self.__last_step is None:
-            return self.__alice_hand.select_any_play()
+            for h in self.__alice_hand.select_any():
+                yield h
+            return
         # None
         yield None
         # Bomb!
@@ -48,9 +53,8 @@ class Situation:
                 if h.first_rank() > self.__last_step.first_rank():
                     yield h
         elif identify(self.__last_step) is Category.straight:
-            for h in self.__alice_hand.select_straight_separated(self.__last_step.len()):
-                if h.first_rank() > self.__last_step.first_rank():
-                    yield h
+            for h in self.__alice_hand.select_straight_fixed_length(self.__last_step.length()):
+                yield h
         else:
             raise Exception("unknown category for last step")
 
@@ -60,11 +64,17 @@ class Situation:
         :param hand:
         :return: nothing
         """
-        temp_hand = self.__alice_hand.copy()
-        temp_hand.remove(hand)
-        self.__alice_hand = self.__bob_hand.copy()
-        self.__bob_hand = temp_hand
-        self.__last_step = hand.copy()
+        if hand is None:  # PASS
+            temp_hand = self.__alice_hand.copy()
+            self.__alice_hand = self.__bob_hand.copy()
+            self.__bob_hand = temp_hand
+            self.__last_step = None
+        else:
+            temp_hand = self.__alice_hand.copy()
+            temp_hand.remove(hand)
+            self.__alice_hand = self.__bob_hand.copy()
+            self.__bob_hand = temp_hand
+            self.__last_step = hand.copy()
 
     def pullback(self):
         """
@@ -86,3 +96,9 @@ class Situation:
         if last_step_hand is None:
             last_step_hand = Hand()
         return "%s-%s-%s" % (self.__alice_hand.id(), self.__bob_hand.id(), last_step_hand.id())
+
+    def copy(self):
+        last_step = None
+        if self.__last_step is not None:
+            last_step = self.__last_step.copy()
+        return Situation(alice_hand=self.__alice_hand, bob_hand=self.__bob_hand, last_step=last_step)

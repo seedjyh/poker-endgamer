@@ -30,6 +30,9 @@ class Hand:
     def ranks(self):
         return self.__ranks.copy()
 
+    def length(self):
+        return len(self.__ranks)
+
     def first_rank(self):
         if len(self.__ranks) >= 1:
             return self.__ranks[0]
@@ -123,6 +126,18 @@ class Hand:
                         break
                     yield Hand(ranks=ranks[begin_index:begin_index + now_length])
 
+    def select_any(self):
+        for h in self.select_individual():
+            yield h
+        for h in self.select_pair():
+            yield h
+        for h in self.select_three_of_a_kind():
+            yield h
+        for h in self.select_four_of_a_kind():
+            yield h
+        for h in self.select_straight_any_length():
+            yield h
+
 
 def fromname(name):
     """
@@ -132,6 +147,8 @@ def fromname(name):
     :param name: type 'str', name of all ranks with or without space.
     :return: Object of Hand.
     """
+    if len(name) == 0:
+        return None
     name = "".join(name.split()).upper()
     return Hand(ranks=[rank.name2rank(rn) for rn in name])
 

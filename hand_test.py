@@ -24,6 +24,7 @@ def test_sort():
 def test_id():
     assert Hand().id() == ""
     assert hand.fromname("424A3").id() == "344A2"
+    assert hand.fromname("") is None
 
 
 def test_select_individual():
