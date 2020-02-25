@@ -4,6 +4,10 @@
 # Create date: 2020/2/23
 from enum import Enum
 
+from rank import name2rank
+
+STRAIGHT_MIN_LENGTH = 5
+
 
 class Category(Enum):
     individual = 1
@@ -34,30 +38,32 @@ def identify(hand):
 
 
 def is_individual(hand):
-    return len(hand.cards()) == 1
+    return len(hand.ranks()) == 1
 
 
 def is_pair(hand):
-    cards = hand.cards()
-    return len(cards) == 2 and cards[0].rank() == cards[1].rank()
+    ranks = hand.ranks()
+    return len(ranks) == 2 and ranks[0] == ranks[1]
 
 
 def is_three_of_a_kind(hand):
-    cards = hand.cards()
-    return len(cards) == 3 and cards[0].rank() == cards[-1].rank()
+    ranks = hand.ranks()
+    return len(ranks) == 3 and ranks[0] == ranks[-1]
 
 
 def is_four_of_a_kind(hand):
-    cards = hand.cards()
-    return len(cards) == 4 and cards[0].rank() == cards[-1].rank()
+    ranks = hand.ranks()
+    return len(ranks) == 4 and ranks[0] == ranks[-1]
 
 
 def is_straight(hand):
-    cards = hand.cards()
-    if len(cards) < 5:
+    ranks = hand.ranks()
+    if len(ranks) < STRAIGHT_MIN_LENGTH:
         return False
-    for index in range(len(cards)):
-        if index > 1 and cards[index-1].rank() + 1 != cards[index].rank():
+    if ranks[-1] == name2rank("2"):
+        return False
+    for index in range(len(ranks)):
+        if index > 1 and ranks[index-1] + 1 != ranks[index]:
             return False
     return True
 
@@ -82,10 +88,10 @@ def beat(new_hand, last_hand):
     if new_category != last_category:
         return new_category == Category.four_of_a_kind
     if new_category in [Category.individual, Category.pair, Category.three_of_a_kind, Category.four_of_a_kind]:
-        return new_hand.first_card().rank() > last_hand.first_card().rank()
+        return new_hand.first_rank() > last_hand.first_rank()
     if new_category is Category.straight:
-        return len(new_hand.cards()) == len(last_hand.cards()) and \
-               new_hand.first_card().rank() > last_hand.first_card().rank()
+        return len(new_hand.ranks()) == len(last_hand.ranks()) and \
+               new_hand.first_rank() > last_hand.first_rank()
     
 
 if __name__ == "__main__":

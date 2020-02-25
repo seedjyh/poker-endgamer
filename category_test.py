@@ -4,27 +4,27 @@ import hand
 
 
 def test_category():
-    assert identify(hand.fromname("DA")) is Category.individual
-    assert identify(hand.fromname("DA DA")) is Category.pair
-    assert identify(hand.fromname("DA SA")) is Category.pair
-    assert identify(hand.fromname("DA SA CA")) is Category.three_of_a_kind
-    assert identify(hand.fromname("DA SA CA HA")) is Category.four_of_a_kind
-    assert identify(hand.fromname("D3 D4 S5 C6 H7")) is Category.straight
+    assert identify(hand.fromname("A")) is Category.individual
+    assert identify(hand.fromname("AA")) is Category.pair
+    assert identify(hand.fromname("AA")) is Category.pair
+    assert identify(hand.fromname("AAA")) is Category.three_of_a_kind
+    assert identify(hand.fromname("AAAA")) is Category.four_of_a_kind
+    assert identify(hand.fromname("34567")) is Category.straight
 
 
 def test_beat():
-    individual_3 = hand.fromname("S3")
-    individual_4 = hand.fromname("S4")
-    pair_3 = hand.fromname("S3 D3")
-    pair_4 = hand.fromname("S4 D4")
-    three_of_a_kind_3 = hand.fromname("S3 D3 H3")
-    three_of_a_kind_4 = hand.fromname("S4 D4 H4")
-    four_of_a_kind_3 = hand.fromname("S3 D3 H3 C3")
-    four_of_a_kind_4 = hand.fromname("S4 D4 H4 C4")
-    straight_lowest_5 = hand.fromname("S3 S4 D5 D6 H7")
-    straight_lowest_6 = hand.fromname("S3 S4 D5 D6 H7 C8")
-    straight_highest_5 = hand.fromname("ST SJ DQ DK CA")
-    straight_highest_6 = hand.fromname("S9 ST SJ DQ DK CA")
+    individual_3 = hand.fromname("3")
+    individual_4 = hand.fromname("4")
+    pair_3 = hand.fromname("33")
+    pair_4 = hand.fromname("44")
+    three_of_a_kind_3 = hand.fromname("333")
+    three_of_a_kind_4 = hand.fromname("444")
+    four_of_a_kind_3 = hand.fromname("3333")
+    four_of_a_kind_4 = hand.fromname("4444")
+    straight_lowest_5 = hand.fromname("34567")
+    straight_lowest_6 = hand.fromname("345678")
+    straight_highest_5 = hand.fromname("TJQKA")
+    straight_highest_6 = hand.fromname("9TJQKA")
 
     def assert_partial_order_beat(hand_a, hand_b):
         """
