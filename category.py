@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 # Author: seedjyh@gmail.com
 # Create date: 2020/2/23
+"""
+Rule to make a category, and beatable or not.
+"""
 from enum import Enum
 
 from rank import name2rank

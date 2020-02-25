@@ -48,7 +48,7 @@ class Situation:
                 if h.first_rank() > self.__last_step.first_rank():
                     yield h
         elif identify(self.__last_step) is Category.straight:
-            for h in self.__alice_hand.select_straight(self.__last_step.len()):
+            for h in self.__alice_hand.select_straight_separated(self.__last_step.len()):
                 if h.first_rank() > self.__last_step.first_rank():
                     yield h
         else:

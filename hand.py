@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 # Author: seedjyh@gmail.com
 # Create date: 2020/2/22
+"""
+Rule to make a category from given cards
+"""
 import rank
 from category import STRAIGHT_MIN_LENGTH
 
@@ -10,6 +13,7 @@ class Hand:
     """
     A list of cards that always sorted.
     """
+
     def __init__(self, ranks=None):
         if ranks is None:
             ranks = []
@@ -80,12 +84,11 @@ class Hand:
             if self.__ranks.count(r) >= 4:
                 yield Hand(ranks=[r, r, r, r])
 
-    def select_straight(self):
+    def select_straight_separated(self):
         rank_set = set()
         for r in self.__ranks:
             if rank.name2rank("2") != r:  # "2" can't be used in straight
                 rank_set.add(r)
-        print(">>>> rank_set:", rank_set)
         now_straight = []
         for r in rank_set:
             if len(now_straight) == 0:
@@ -99,6 +102,26 @@ class Hand:
                     now_straight = [r, ]
         if len(now_straight) >= STRAIGHT_MIN_LENGTH:
             yield Hand(ranks=now_straight)
+
+    def select_straight_fixed_length(self, length):
+        for h in self.select_straight_separated():
+            ranks = h.ranks()
+            if len(ranks) >= length:
+                for index in range(len(ranks) - length + 1):
+                    yield Hand(ranks=ranks[index:index+length])
+
+    def select_straight_any_length(self):
+        """
+        Straight in any length (>= STRAIGHT_MIN_LENGTH)
+        :return:
+        """
+        for h in self.select_straight_separated():
+            ranks = h.ranks()
+            for now_length in range(STRAIGHT_MIN_LENGTH, len(ranks) + 1):
+                for begin_index in range(len(ranks)):
+                    if begin_index + now_length > len(ranks):
+                        break
+                    yield Hand(ranks=ranks[begin_index:begin_index + now_length])
 
 
 def fromname(name):
