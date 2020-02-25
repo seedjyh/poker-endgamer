@@ -44,8 +44,6 @@ def test_select_pair_2():
     """
     result = [x for x in select_pair(hand.fromname("S2S2H2C2C2"))]
     assert len(result) == 1
-    print(">>>>>", result[0].cards())
-    print(">>>>>", result[0].first_card())
     assert result[0].first_card().rank() == name2rank("2")
 
 

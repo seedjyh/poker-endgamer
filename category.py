@@ -69,6 +69,10 @@ def beat(new_hand, last_hand):
     :param last_hand:
     :return: True if new_hand could beat last_hand.
     """
+    if new_hand is None:
+        return False
+    elif last_hand is None:
+        return True
     new_category = identify(new_hand)
     if new_category is None:
         return False

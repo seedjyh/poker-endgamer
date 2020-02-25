@@ -12,25 +12,43 @@ class Hand:
     def __init__(self, cards=None):
         if cards is None:
             cards = []
-        self.__cards = cards
+        self.__cardnames = [c.name() for c in cards]
 
-    def append_card(self, card):
-        self.__cards.append(card)
+    def append_card(self, new_card):
+        self.__cardnames.append(new_card.name())
         self.__sort()
 
     def __sort(self):
-        self.__cards.sort(key=lambda x: x.rank() * 100 + x.suit())
+        self.__cardnames.sort(key=lambda cn: card.fromname(cn).weight())
 
     def __str__(self):
-        return "".join(str(x) for x in self.__cards)
+        return "".join(str(x) for x in self.__cardnames)
 
     def cards(self):
-        return self.__cards
+        return [card.fromname(cn) for cn in self.__cardnames]
 
     def first_card(self):
-        if len(self.__cards) >= 1:
-            return self.__cards[0]
+        if len(self.__cardnames) >= 1:
+            return card.fromname(self.__cardnames[0])
         return None
+
+    def copy(self):
+        return Hand(cards=self.cards().copy())
+
+    def mix(self, hand):
+        self.__cardnames += hand.__cardnames
+        self.__sort()
+
+    def remove(self, hand):
+        for cn in hand.__cardnames:
+            self.__cardnames.remove(cn)
+
+    def id(self):
+        """
+        Get str made only from rank-name of each cards.
+        :return:
+        """
+        return "".join([card.fromname(cn).rank_name() for cn in self.__cardnames])
 
 
 def fromname(name):

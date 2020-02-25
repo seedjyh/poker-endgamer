@@ -89,11 +89,21 @@ class Card:
     def rank(self):
         return self.__rank
 
+    def rank_name(self):
+        return rank2name(self.__rank)
+
     def name(self):
         return suit2name(self.__suit) + rank2name(self.__rank)
 
     def __str__(self):
         return self.name()
+
+    def weight(self):
+        """
+        Used in sorting cards.
+        :return:
+        """
+        return self.__rank * 100 + self.__suit
 
 
 def fromname(name):
