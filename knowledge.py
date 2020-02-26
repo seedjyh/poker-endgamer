@@ -31,4 +31,4 @@ class SituationValuation:
         if v is None:
             return v
         else:
-            return bool(v)
+            return bool(int(v))
