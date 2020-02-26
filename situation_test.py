@@ -2,16 +2,19 @@
 # -*- coding: utf-8 -*-
 # Author: seedjyh@gmail.com
 # Create date: 2020/2/26
-from hand import fromname
-from situation import Situation
+
+from situation import Situation, fromname
 
 
 def test_find_playable():
-    s = Situation(alice_hand=fromname("345"), bob_hand=fromname("678"), last_step=None)
+    s = fromname("345:678:")
     assert 3 == len([x for x in s.find_playable()])
 
+
 def test_fromname():
-    pass
+    assert "345:678:9TJ" == fromname("543:867:TJ9").name()
+    assert ":3:" == fromname(":3:").name()
+
 
 def test_compressed_name():
     pass

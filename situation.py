@@ -93,12 +93,7 @@ class Situation:
         Suit means nothing here, so use "name" of hand.
         :return:
         """
-        alice_name = self.__alice_hand.name()
-        bob_name = self.__bob_hand.name()
-        last_step_name = ""
-        if self.__last_step is not None:
-            last_step_name = self.__last_step.name()
-        return ":".join([alice_name, bob_name, last_step_name])
+        return ":".join(["" if h is None else h.name() for h in [self.__alice_hand, self.__bob_hand, self.__last_step]])
 
     def compressed_name(self):
         return self.__alice_hand.name()
@@ -112,4 +107,6 @@ class Situation:
 
 def fromname(name):
     alice, bob, last_step = [hand.fromname(n) for n in name.split(":")]
+    print(">>>>", name.split(":"), flush=True)
+    print(alice, bob, last_step, flush=True)
     return Situation(alice_hand=alice, bob_hand=bob, last_step=last_step)
