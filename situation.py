@@ -92,10 +92,12 @@ class Situation:
         Suit means nothing here, so use "id" of hand.
         :return:
         """
-        last_step_hand = self.__last_step
-        if last_step_hand is None:
-            last_step_hand = Hand()
-        return "%s-%s-%s" % (self.__alice_hand.id(), self.__bob_hand.id(), last_step_hand.id())
+        alice_id = self.__alice_hand.id()
+        bob_id = self.__bob_hand.id()
+        last_step_id = ""
+        if self.__last_step is not None:
+            last_step_id = self.__last_step.id()
+        return ":".join([alice_id, bob_id, last_step_id])
 
     def copy(self):
         last_step = None
