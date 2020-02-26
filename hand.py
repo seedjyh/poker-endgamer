@@ -49,7 +49,7 @@ class Hand:
         for r in hand.__ranks:
             self.__ranks.remove(r)
 
-    def id(self):
+    def name(self):
         """
         Get str made only from rank-name of each cards.
         :return:

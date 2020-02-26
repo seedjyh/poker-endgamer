@@ -10,9 +10,6 @@ from knowledge import SituationValuation
 class Searcher:
     def __init__(self):
         self.__knowledge = SituationValuation()
-        # self.__strategy = dict()  # str(situation-id) -> bool(Winable). No key means not searched.
-        # todo: another dict: simpler key for no-straight situation
-        # todo: store the dict into a text file or redis.
 
     def evaluate(self, situation):
         """

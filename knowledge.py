@@ -18,7 +18,7 @@ class SituationValuation:
 
     @staticmethod
     def generate_key(situation):
-        return "poker-endgamer:" + situation.id()
+        return "poker-endgamer:" + situation.name()
 
     def save(self, situation, value):
         key = self.generate_key(situation)

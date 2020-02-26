@@ -10,6 +10,12 @@ def test_find_playable():
     s = Situation(alice_hand=fromname("345"), bob_hand=fromname("678"), last_step=None)
     assert 3 == len([x for x in s.find_playable()])
 
+def test_fromname():
+    pass
+
+def test_compressed_name():
+    pass
+
 
 if __name__ == "__main__":
     pass

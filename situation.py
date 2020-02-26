@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+import hand
 from category import identify, Category
 from hand import Hand
 
@@ -86,21 +87,29 @@ class Situation:
         self.__alice_hand = prev_alice
         self.__bob_hand = prev_bob
 
-    def id(self):
+    def name(self):
         """
         Identify this situation in a single string.
-        Suit means nothing here, so use "id" of hand.
+        Suit means nothing here, so use "name" of hand.
         :return:
         """
-        alice_id = self.__alice_hand.id()
-        bob_id = self.__bob_hand.id()
-        last_step_id = ""
+        alice_name = self.__alice_hand.name()
+        bob_name = self.__bob_hand.name()
+        last_step_name = ""
         if self.__last_step is not None:
-            last_step_id = self.__last_step.id()
-        return ":".join([alice_id, bob_id, last_step_id])
+            last_step_name = self.__last_step.name()
+        return ":".join([alice_name, bob_name, last_step_name])
+
+    def compressed_name(self):
+        return self.__alice_hand.name()
 
     def copy(self):
         last_step = None
         if self.__last_step is not None:
             last_step = self.__last_step.copy()
         return Situation(alice_hand=self.__alice_hand, bob_hand=self.__bob_hand, last_step=last_step)
+
+
+def fromname(name):
+    alice, bob, last_step = [hand.fromname(n) for n in name.split(":")]
+    return Situation(alice_hand=alice, bob_hand=bob, last_step=last_step)

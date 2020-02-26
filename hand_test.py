@@ -22,8 +22,8 @@ def test_sort():
 
 
 def test_id():
-    assert Hand().id() == ""
-    assert hand.fromname("424A3").id() == "344A2"
+    assert Hand().name() == ""
+    assert hand.fromname("424A3").name() == "344A2"
     assert hand.fromname("") is None
 
 
@@ -172,24 +172,24 @@ def test_select_straight_separated_4():
 def test_select_straight_fixed_length():
     result = [x for x in hand.fromname("3456789T").select_straight_fixed_length(6)]
     assert len(result) == 3
-    assert result[0].id() == "345678"
-    assert result[1].id() == "456789"
-    assert result[2].id() == "56789T"
+    assert result[0].name() == "345678"
+    assert result[1].name() == "456789"
+    assert result[2].name() == "56789T"
 
 
 def test_select_straight_any_length():
     result = [x for x in hand.fromname("3456789T").select_straight_any_length()]
     assert len(result) == 4 + 3 + 2 + 1
-    assert result[0].id() == "34567"
-    assert result[1].id() == "45678"
-    assert result[2].id() == "56789"
-    assert result[3].id() == "6789T"
-    assert result[4].id() == "345678"
-    assert result[5].id() == "456789"
-    assert result[6].id() == "56789T"
-    assert result[7].id() == "3456789"
-    assert result[8].id() == "456789T"
-    assert result[9].id() == "3456789T"
+    assert result[0].name() == "34567"
+    assert result[1].name() == "45678"
+    assert result[2].name() == "56789"
+    assert result[3].name() == "6789T"
+    assert result[4].name() == "345678"
+    assert result[5].name() == "456789"
+    assert result[6].name() == "56789T"
+    assert result[7].name() == "3456789"
+    assert result[8].name() == "456789T"
+    assert result[9].name() == "3456789T"
 
 
 if __name__ == "__main__":
