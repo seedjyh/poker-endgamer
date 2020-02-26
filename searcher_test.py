@@ -23,18 +23,10 @@ def test_searcher():
     assert evaluate("45678", "4", "34567")
     assert evaluate("334455", "2", "")
     assert not evaluate("33445567", "2", "")
+    assert not evaluate("33556789TJK", "6789TJQKAA", "")
+    assert not evaluate("33556789TJ2", "6789TJQKAA", "")
     # assert evaluate("33556789TJQK2", "6789TJQKAA", "")
 
 
-def test_searcher_memory_leak():
-    t0 = time.clock()
-    s.evaluate(Situation(alice_hand=fromname("33556789TJK"), bob_hand=fromname("6789TJQKAA")))
-    t1 = time.clock()
-    print("33556789TJK: cost=", t1 - t0, flush=True)
-    s.evaluate(Situation(alice_hand=fromname("33556789TJ2"), bob_hand=fromname("6789TJQKAA")))
-    t2 = time.clock()
-    print("33556789TJ2: cost=", t2 - t1, flush=True)
-
-
 if __name__ == "__main__":
-    test_searcher_memory_leak()
+    pass

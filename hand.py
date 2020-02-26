@@ -33,6 +33,9 @@ class Hand:
     def length(self):
         return len(self.__ranks)
 
+    def empty(self):
+        return len(self.__ranks) == 0
+
     def first_rank(self):
         if len(self.__ranks) >= 1:
             return self.__ranks[0]
@@ -147,8 +150,6 @@ def fromname(name):
     :param name: type 'str', name of all ranks with or without space.
     :return: Object of Hand.
     """
-    if len(name) == 0:
-        return None
     name = "".join(name.split()).upper()
     return Hand(ranks=[rank.name2rank(rn) for rn in name])
 

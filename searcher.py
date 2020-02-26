@@ -17,6 +17,7 @@ class Searcher:
         :param situation:
         :return: True if this situation is win-able.
         """
+        situation = situation.normalize()
         v = self.__knowledge.query(situation)
         if v is not None:
             return v

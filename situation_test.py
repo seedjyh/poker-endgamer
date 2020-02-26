@@ -16,8 +16,8 @@ def test_fromname():
     assert ":3:" == fromname(":3:").name()
 
 
-def test_compressed_name():
-    pass
+def test_normalize():
+    assert "3457:456J:8" == fromname("3579:2578:T").normalize().name()
 
 
 if __name__ == "__main__":

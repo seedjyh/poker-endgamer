@@ -13,6 +13,7 @@ def test_category():
 
 
 def test_beat():
+    empty = hand.fromname("")
     individual_3 = hand.fromname("3")
     individual_4 = hand.fromname("4")
     pair_3 = hand.fromname("33")
@@ -37,11 +38,11 @@ def test_beat():
         assert not beat(hand_b, hand_a)
 
     # Anything beats none (opposite says "PASS")
-    assert_partial_order_beat(individual_3, None)
-    assert_partial_order_beat(pair_3, None)
-    assert_partial_order_beat(three_of_a_kind_3, None)
-    assert_partial_order_beat(four_of_a_kind_3, None)
-    assert_partial_order_beat(straight_lowest_5, None)
+    assert_partial_order_beat(individual_3, empty)
+    assert_partial_order_beat(pair_3, empty)
+    assert_partial_order_beat(three_of_a_kind_3, empty)
+    assert_partial_order_beat(four_of_a_kind_3, empty)
+    assert_partial_order_beat(straight_lowest_5, empty)
     # Same category, higher beats lower.
     assert_partial_order_beat(individual_4, individual_3)
     assert_partial_order_beat(pair_4, pair_3)

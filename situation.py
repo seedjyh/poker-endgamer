@@ -12,6 +12,8 @@ class Situation:
         :param bob_hand: Hand of bob
         :param last_step: Hand bob played in the last step. None means bob says "PASS" or it's the beginning of a game.
         """
+        if last_step is None:
+            last_step = Hand()
         self.__alice_hand = alice_hand
         self.__bob_hand = bob_hand
         self.__last_step = last_step
@@ -22,16 +24,16 @@ class Situation:
     def find_playable(self):
         """
         Return a list of hand playable in this situation.
-        Notice that if last_step is None, None shall not in current list.
+        Notice that if last_step.empty(), None shall not in current list.
         :return: a list of playable hand.
         """
         # PASS
-        if self.__last_step is None:
+        if self.__last_step.empty():
             for h in self.__alice_hand.select_any():
                 yield h
             return
         # None
-        yield None
+        yield Hand()
         # Bomb!
         if identify(self.__last_step) is not Category.four_of_a_kind:
             for h in self.__alice_hand.select_four_of_a_kind():
@@ -65,11 +67,11 @@ class Situation:
         :param hand:
         :return: nothing
         """
-        if hand is None:  # PASS
+        if hand.empty():  # PASS
             temp_hand = self.__alice_hand.copy()
             self.__alice_hand = self.__bob_hand.copy()
             self.__bob_hand = temp_hand
-            self.__last_step = None
+            self.__last_step = Hand()
         else:
             temp_hand = self.__alice_hand.copy()
             temp_hand.remove(hand)
@@ -77,32 +79,26 @@ class Situation:
             self.__bob_hand = temp_hand
             self.__last_step = hand.copy()
 
-    def pullback(self):
-        """
-        Append cards into bob_hand, and switch alice and bob.
-        :return: nothing
-        """
-        prev_alice = self.__bob_hand.copy().append(self.__last_step)
-        prev_bob = self.__alice_hand.copy()
-        self.__alice_hand = prev_alice
-        self.__bob_hand = prev_bob
-
     def name(self):
         """
         Identify this situation in a single string.
         Suit means nothing here, so use "name" of hand.
         :return:
         """
-        return ":".join(["" if h is None else h.name() for h in [self.__alice_hand, self.__bob_hand, self.__last_step]])
+        return ":".join([h.name() for h in [self.__alice_hand, self.__bob_hand, self.__last_step]])
 
-    def compressed_name(self):
-        return self.__alice_hand.name()
+    def normalize(self):
+        """
+        "2" shall never decrease (or perhaps a straight appears)
+        :return: normalized situation object.
+        """
+        a_l = self.__alice_hand.ranks()
+        b_l = self.__bob_hand.ranks()
+        l_l = self.__last_step.ranks()
+        return self.copy()
 
     def copy(self):
-        last_step = None
-        if self.__last_step is not None:
-            last_step = self.__last_step.copy()
-        return Situation(alice_hand=self.__alice_hand, bob_hand=self.__bob_hand, last_step=last_step)
+        return Situation(alice_hand=self.__alice_hand, bob_hand=self.__bob_hand, last_step=self.__last_step.copy())
 
 
 def fromname(name):
