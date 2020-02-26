@@ -1,15 +1,14 @@
 # -*- coding:utf-8 -*-
 
-import redis
 from rediscluster import RedisCluster
 
 startup_nodes = [
-    {"host":"127.0.0.1", "port":8001},
-    {"host":"127.0.0.1", "port":8002},
-    {"host":"127.0.0.1", "port":8003},
-    {"host":"127.0.0.1", "port":8004},
-    {"host":"127.0.0.1", "port":8005},
-    {"host":"127.0.0.1", "port":8006},
+    {"host": "127.0.0.1", "port": 8001},
+    {"host": "127.0.0.1", "port": 8002},
+    {"host": "127.0.0.1", "port": 8003},
+    {"host": "127.0.0.1", "port": 8004},
+    {"host": "127.0.0.1", "port": 8005},
+    {"host": "127.0.0.1", "port": 8006},
 ]
 
 
