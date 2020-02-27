@@ -7,8 +7,8 @@ from situation import Situation, fromname
 
 
 def test_find_playable():
-    s = fromname("345:678:")
-    assert 3 == len([x for x in s.find_playable()])
+    assert 3 == len([x for x in fromname("345:678:").find_playable()])
+    assert 1 == len([x for x in fromname("34567:678:34567").find_playable()])  # pass
 
 
 def test_fromname():

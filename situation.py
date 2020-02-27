@@ -61,7 +61,8 @@ class Situation:
                     yield h
         elif identify(self.__last_step) is Category.straight:
             for h in self.__alice_hand.select_straight_fixed_length(self.__last_step.length()):
-                yield h
+                if h.first_rank() > self.__last_step.first_rank():
+                    yield h
         else:
             raise Exception("unknown category for last step")
 
