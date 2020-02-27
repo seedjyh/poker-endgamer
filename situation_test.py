@@ -17,7 +17,7 @@ def test_fromname():
 
 
 def test_normalize():
-    assert "3457:456J:8" == fromname("3579:2578:T").normalize().name()
+    assert fromname("3579:2578:T").normalize().name() == "3457:4562:8"
 
 
 if __name__ == "__main__":

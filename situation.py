@@ -1,7 +1,11 @@
 # -*- coding:utf-8 -*-
+import time
+
 import hand
 from category import identify, Category
 from hand import Hand
+from normalize import removable_rank, remove_rank, max_removable
+from rank import name2rank
 
 
 class Situation:
@@ -95,7 +99,15 @@ class Situation:
         a_l = self.__alice_hand.ranks()
         b_l = self.__bob_hand.ranks()
         l_l = self.__last_step.ranks()
-        return self.copy()
+        now_remove = name2rank("3")
+        while now_remove < max_removable(a_l + b_l + l_l):
+            if removable_rank(a_l, now_remove) and removable_rank(b_l, now_remove) and removable_rank(l_l, now_remove):
+                a_l = remove_rank(a_l, now_remove)
+                b_l = remove_rank(b_l, now_remove)
+                l_l = remove_rank(l_l, now_remove)
+            else:
+                now_remove += 1
+        return Situation(alice_hand=Hand(ranks=a_l), bob_hand=Hand(ranks=b_l), last_step=Hand(ranks=l_l))
 
     def copy(self):
         return Situation(alice_hand=self.__alice_hand, bob_hand=self.__bob_hand, last_step=self.__last_step.copy())
@@ -103,6 +115,5 @@ class Situation:
 
 def fromname(name):
     alice, bob, last_step = [hand.fromname(n) for n in name.split(":")]
-    print(">>>>", name.split(":"), flush=True)
     print(alice, bob, last_step, flush=True)
     return Situation(alice_hand=alice, bob_hand=bob, last_step=last_step)
